@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ChatApp.Models.ChatAppModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.korisnik_ime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.korisnik_korisnicko_ime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.korisnik_sifra)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.korisnik_email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.korisnik_logo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.korisnik_status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.korisnik_ime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.korisnik_korisnicko_ime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.korisnik_sifra)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.korisnik_email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.korisnik_logo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.korisnik_status)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.korisnikID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.korisnikID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.korisnikID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,45 @@
+﻿
+@model ChatApp.Controllers.RegistracijaViewModel
+@{
+
+    ViewBag.Title = "Register";
+}
+
+<h1> Registracija </h1>
+
+<form method="post" asp-controller="Registracija" asp-action="Registracija">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label asp-for="korisnik_korisnicko_ime">Korisničko ime:</label>
+        <input asp-for="korisnik_korisnicko_ime" />
+        <span asp-validation-for="korisnik_korisnicko_ime"></span>
+    </div>
+
+    <div>
+        <label asp-for="korisnik_ime">Ime:</label>
+        <input asp-for="korisnik_ime" />
+        <span asp-validation-for="korisnik_ime"></span>
+    </div>
+    <div>
+        <label asp-for="korisnik_sifra">Šifra:</label>
+        <input asp-for="korisnik_sifra" />
+        <span asp-validation-for="korisnik_sifra"></span>
+    </div>
+
+    <div>
+        <label asp-for="potvrda_sifre">Potvrdi šifru:</label>
+        <input asp-for="potvrda_sifre" />
+        <span asp-validation-for="potvrda_sifre"></span>
+    </div>
+
+    <div>
+        <label asp-for="korisnik_email">Email aresa:</label>
+        <input asp-for="korisnik_email" />
+        <span asp-validation-for="korisnik_email"></span>
+    </div>
+
+    <div>
+        <input type="submit" value="Register" />
+    </div>
+
+</form>
