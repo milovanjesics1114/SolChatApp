@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ChatApp.Data;
+using ChatApp.Hubs;
 
 
 namespace ChatApp
@@ -26,6 +27,7 @@ namespace ChatApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSignalR();
             services.AddControllersWithViews();
             services.AddDbContext<MvcChatContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MvcChatContext")));
 
@@ -53,6 +55,7 @@ namespace ChatApp
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ChatHub>("/chatHub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
