@@ -4,14 +4,16 @@ using ChatApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ChatApp.Migrations
 {
     [DbContext(typeof(MvcChatContext))]
-    partial class MvcChatContextModelSnapshot : ModelSnapshot
+    [Migration("20210521003153_AddMessageModel")]
+    partial class AddMessageModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,21 +30,27 @@ namespace ChatApp.Migrations
 
                     b.Property<string>("korisnik_email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("korisnik_ime")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("korisnik_korisnicko_ime")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("korisnik_logo")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("korisnik_sifra")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(30)");
 
                     b.Property<bool>("korisnik_status")
                         .HasColumnType("bit");
@@ -59,10 +67,7 @@ namespace ChatApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ChatAppModelkorisnikID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("poruka_korisnikID")
+                    b.Property<int>("korisnik_korisnikID")
                         .HasColumnType("int");
 
                     b.Property<string>("sadrzaj")
@@ -74,23 +79,7 @@ namespace ChatApp.Migrations
 
                     b.HasKey("porukaID");
 
-                    b.HasIndex("ChatAppModelkorisnikID");
-
                     b.ToTable("MessageModel");
-                });
-
-            modelBuilder.Entity("ChatApp.Models.MessageModel", b =>
-                {
-                    b.HasOne("ChatApp.Models.ChatAppModel", "ChatAppModel")
-                        .WithMany("MessageModel")
-                        .HasForeignKey("ChatAppModelkorisnikID");
-
-                    b.Navigation("ChatAppModel");
-                });
-
-            modelBuilder.Entity("ChatApp.Models.ChatAppModel", b =>
-                {
-                    b.Navigation("MessageModel");
                 });
 #pragma warning restore 612, 618
         }

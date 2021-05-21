@@ -26,6 +26,7 @@ CREATE TABLE ChatDB.korisnik
 	,korisnik_email NVARCHAR(100) NOT NULL
 	,korisnik_logo NVARCHAR(255) NULL
 	,korisnik_status TINYINT NOT NULL
+	,FOREIGN KEY (poruka_porukaID)
 
 )
 SET IDENTITY_INSERT ChatDB.korisnik ON;

@@ -7,7 +7,8 @@
       "sslPort": 44389
     }
   },
-  "profiles": {
+
+  "profiles": { 
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,

@@ -10,8 +10,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ChatApp.Data;
+using ChatApp.Models;
 using ChatApp.Hubs;
-
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace ChatApp
 {
@@ -29,8 +31,16 @@ namespace ChatApp
         {
             services.AddSignalR();
             services.AddControllersWithViews();
-            services.AddDbContext<MvcChatContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MvcChatContext")));
+            services.AddMvc();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            services.AddSession();
+
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
+            services.AddDbContext<MvcChatContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MvcChatContext")));
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,12 +56,19 @@ namespace ChatApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseCookiePolicy();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseSession();
+
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
