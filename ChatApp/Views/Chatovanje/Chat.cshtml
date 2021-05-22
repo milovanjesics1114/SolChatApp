@@ -21,24 +21,24 @@
 <hr />
 
 <div class="container">
+    <a  asp-area="" asp-controller="ChatAppModels" asp-action="Logout">Logout</a>
     <form asp-action="Chat">
         <div class="row">&nbsp;</div>
         <div class="row">
-            <div class="row">
+            
 
-                <div class="col-2"><label id="userName"> @userName</label></div>
+                <div class="col-8">Vase korisnicko ime:<label class="col-4" id="userName">  @userName</label></div>
 
-            </div>
+            
         </div>
         <div class="row">
             <div class="col-2">Message</div>
             <div class="col-4"><input type="text" id="messageInput" /></div>
         </div>
-        
+
         <div class="row">&nbsp;</div>
         <div class="row">
             <div class="col-6">
-                <!--id od buttona promenjen na novu, ajde da probam kao da imam jedan model i da saljem poruku u korisnik_ime <input asp-for="korisnikID" type="button" value="Pošaljite poruku" />-->
                 <input type="button" id="Posalji" value="Send Message" />
 
             </div>

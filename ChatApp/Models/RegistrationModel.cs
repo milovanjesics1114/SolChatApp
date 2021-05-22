@@ -10,7 +10,7 @@ namespace ChatApp.Models
     public class RegistrationModel
     {
         [Required]
-        [StringLength(100, MinimumLength = 3)]
+        [StringLength(100)]
         public string korisnik_korisnicko_ime { get; set; }
         
         [Required]
@@ -21,9 +21,6 @@ namespace ChatApp.Models
         [Required]
         [StringLength(30, MinimumLength = 6)]
         public string korisnik_sifra { get; set; }
-        [Required]
-        [NotMapped] // Does not effect with your database
-        [Compare("korisnik_sifra")]
-        public string ConfirmPassword { get; set; }
+       
     }
 }

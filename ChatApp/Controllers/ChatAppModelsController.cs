@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 using Microsoft.AspNetCore.SignalR;
 using ChatApp.Hubs;
+using Microsoft.Data.SqlClient;
 
 namespace ChatApp.Controllers
 {
@@ -19,25 +20,6 @@ namespace ChatApp.Controllers
 
     public class ChatAppModelsController : Controller
     {
-        /*PRIVATE CHAT OUTSITE HUB
-        private IHubContext<ChatHub> _hubContext;
-
-        public ChatAppModelsController(IHubContext<ChatHub> hubContext)
-        {
-            _hubContext = hubContext;
-        }
-        public IActionResult SendMessage(MessageModel model)
-        {
-
-
-
-            _hubContext.Clients.All.SendAsync("PrimljenaPoruka", model.sadrzaj);
-            return PartialView("SubmitFormPartial");
-        }
-        /^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-        */
-
         private readonly MvcChatContext _context;
 
         public ChatAppModelsController(MvcChatContext context)
@@ -215,38 +197,30 @@ namespace ChatApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        private bool ChatAppModelExistsName(string user_name)
-        {
-            return _context.ChatAppModel.Any(e => e.korisnik_korisnicko_ime == user_name);
-        }
-
-
-        //REGISTER 
+        //REGISTRATION
         [HttpPost]
-        public async Task<ActionResult> Registration(RegistrationModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Registration(string korisnickoIme, [Bind("korisnikID,korisnik_korisnicko_ime,korisnik_sifra,korisnik_email")] ChatAppModel chatAppModel)
         {
-
-            if (ModelState.IsValid)
+            var result =  _context.ChatAppModel.Any(e => e.korisnik_korisnicko_ime == korisnickoIme);
+            
+            if (result == false)
             {
-                ChatAppModel user = new ChatAppModel
+                if (ModelState.IsValid)
                 {
-                    korisnik_korisnicko_ime = model.korisnik_korisnicko_ime,
-                    korisnik_email = model.korisnik_email,
-                    korisnik_sifra = model.korisnik_sifra,
-                   
-
-                };
-                _context.Add(user);
-                await _context.SaveChangesAsync();
-
+                    _context.Add(chatAppModel);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Login", "ChatAppModels");
+                }
+                else
+                {
+                    return View("Registration");
+                }
             }
-            else
-            {
-                return View("Registration");
-            }
-            return RedirectToAction("Login", "ChatAppModels");
+            return View("Registration");
+
+
         }
-        // registration Page load
         public IActionResult Registration()
         {
             ViewData["Message"] = "Registration Page";
@@ -254,38 +228,15 @@ namespace ChatApp.Controllers
             return View();
         }
 
-
-        // GET: ChatAppModels/Chat
-        /*public IActionResult Chat()
+        private bool ChatAppModelExistsName(string user_name)
         {
-            return View();
-        }*/
-        //CHECK
-        public async Task<IActionResult> Chat(int? id) 
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var chatAppModel = await _context.ChatAppModel
-                .FirstOrDefaultAsync(m => m.korisnikID == id);
-            if (chatAppModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(chatAppModel);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Chat(int id)
-        {
-            //posebna metoda za linkovanje poruke s bazom
-            //poziv te metode 
-            return View();
+            return _context.ChatAppModel.Any(e => e.korisnik_korisnicko_ime == user_name);
         }
 
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
         public void ValidationMessage(string key, string alert, string value)
         {
             try
@@ -301,7 +252,6 @@ namespace ChatApp.Controllers
 
         }
 
-        //ajmoooo
         
     }
 }
