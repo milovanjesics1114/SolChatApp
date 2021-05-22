@@ -13,8 +13,11 @@ connection.on("ReceiveMessage", function (user, message) {
     document.getElementById("messagesList").appendChild(li);
 });
 
+
 connection.start().then(function () {
     document.getElementById("Posalji").disabled = false;
+    var user = document.getElementById("userName").innerHTML;
+    connection.invoke("Connect", user);
 }).catch(function (err) {
     return console.error(err.toString());
 });

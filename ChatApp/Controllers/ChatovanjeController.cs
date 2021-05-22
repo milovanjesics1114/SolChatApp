@@ -44,8 +44,6 @@ namespace ChatApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Chat()
         {
-            //posebna metoda za linkovanje poruke s bazom
-            //poziv te metode 
             return View();
         }
     }

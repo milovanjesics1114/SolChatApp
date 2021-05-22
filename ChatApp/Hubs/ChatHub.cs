@@ -12,41 +12,31 @@ namespace ChatApp.Hubs
     {
         static Dictionary<string, string> ConnectedUsers = new Dictionary< string, string>();
        
-        public void Connect(string UserName)
+        public void Connect(string user)
         {
+            Console.WriteLine("connect invoked");
             var id = Context.ConnectionId;
+            var trimmedUser = user.Trim();
+            if (!ConnectedUsers.ContainsKey(trimmedUser))
+            {
 
-            ConnectedUsers.Add(UserName, id);
+                Console.WriteLine("Key: " + trimmedUser + " value: " + id);
+                ConnectedUsers.Add(trimmedUser, id);
+
+            }
         }
         public async Task SendMessage(string sender, string message, string receiver)
         {
             var trimmedSender = sender.Trim();
 
             var trimmedReveiver = receiver.Trim();
-            var id = Context.ConnectionId;
-            if(!ConnectedUsers.ContainsKey(trimmedSender))
-            {
-                
-                Console.WriteLine("Key: " + trimmedSender + " value: " + id);
-                ConnectedUsers.Add(trimmedSender.Trim(), id);
-
-                foreach (KeyValuePair<string, string> entry in ConnectedUsers)
-                {
-                    Console.WriteLine("entry: " + entry);
-                }
-            }
+           
             Console.WriteLine("receiver: " + trimmedReveiver);
             string receiverId;
             if (ConnectedUsers.TryGetValue(trimmedReveiver, out receiverId))
             {
-
-                //var receiverId = ConnectedUsers[receiver];
-
-                Console.WriteLine("receiver: " + receiverId);
-                Console.WriteLine("sender: " + GetConnectionId());
-            
-            
-            await Clients.Client(receiverId).SendAsync("ReceiveMessage", trimmedSender, message);
+                 await Clients.Clients(new List<string>() { receiverId, GetConnectionId() }).SendAsync("ReceiveMessage", trimmedSender, message);
+                
             }
             
             

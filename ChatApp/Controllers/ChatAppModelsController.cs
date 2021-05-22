@@ -246,35 +246,7 @@ namespace ChatApp.Controllers
         }
 
 
-        // GET: ChatAppModels/Chat
-        /*public IActionResult Chat()
-        {
-            return View();
-        }*/
-        //CHECK
-        public async Task<IActionResult> Chat(int? id) 
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var chatAppModel = await _context.ChatAppModel
-                .FirstOrDefaultAsync(m => m.korisnikID == id);
-            if (chatAppModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(chatAppModel);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Chat(int id)
-        {
-            return View();
-        }
-
+        
         public void ValidationMessage(string key, string alert, string value)
         {
             try

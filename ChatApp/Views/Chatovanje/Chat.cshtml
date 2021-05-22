@@ -19,7 +19,7 @@
 
 <h3>Ćaskanje sa <label id="userNameToWho">@userNameToWho</label></h3>
 <hr />
-
+<a asp-controller="ChatAppModels" asp-action="Logout">Logout</a>
 <div class="container">
     <form asp-action="Chat">
         <div class="row">&nbsp;</div>
@@ -38,7 +38,6 @@
         <div class="row">&nbsp;</div>
         <div class="row">
             <div class="col-6">
-                <!--id od buttona promenjen na novu, ajde da probam kao da imam jedan model i da saljem poruku u korisnik_ime <input asp-for="korisnikID" type="button" value="Pošaljite poruku" />-->
                 <input type="button" id="Posalji" value="Send Message" />
 
             </div>
