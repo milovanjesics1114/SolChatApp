@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Controllers
 { 
+    //dodat ovaj kontroler -> njegov folder za Views
     public class ChatovanjeController : Controller
     {
         private readonly MvcChatContext _context;
@@ -44,6 +45,8 @@ namespace ChatApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Chat()
         {
+            //posebna metoda za linkovanje poruke s bazom
+            //poziv te metode 
             return View();
         }
     }
