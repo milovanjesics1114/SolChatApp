@@ -19,25 +19,6 @@ namespace ChatApp.Controllers
 
     public class ChatAppModelsController : Controller
     {
-        /*PRIVATE CHAT OUTSITE HUB
-        private IHubContext<ChatHub> _hubContext;
-
-        public ChatAppModelsController(IHubContext<ChatHub> hubContext)
-        {
-            _hubContext = hubContext;
-        }
-        public IActionResult SendMessage(MessageModel model)
-        {
-
-
-
-            _hubContext.Clients.All.SendAsync("PrimljenaPoruka", model.sadrzaj);
-            return PartialView("SubmitFormPartial");
-        }
-        /^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-        */
-
         private readonly MvcChatContext _context;
 
         public ChatAppModelsController(MvcChatContext context)
@@ -217,6 +198,8 @@ namespace ChatApp.Controllers
 
         private bool ChatAppModelExistsName(string user_name)
         {
+            Console.WriteLine("Korisnicko ime: " + user_name);
+            Console.WriteLine("DAl ga nasao: " + _context.ChatAppModel.Any(e => e.korisnik_korisnicko_ime == user_name));
             return _context.ChatAppModel.Any(e => e.korisnik_korisnicko_ime == user_name);
         }
 
@@ -225,26 +208,34 @@ namespace ChatApp.Controllers
         [HttpPost]
         public async Task<ActionResult> Registration(RegistrationModel model)
         {
-
-            if (ModelState.IsValid)
+            if(ChatAppModelExistsName(model.korisnik_korisnicko_ime) == false)
             {
-                ChatAppModel user = new ChatAppModel
+                if (ModelState.IsValid)
                 {
-                    korisnik_korisnicko_ime = model.korisnik_korisnicko_ime,
-                    korisnik_email = model.korisnik_email,
-                    korisnik_sifra = model.korisnik_sifra,
-                   
+                    ChatAppModel user = new ChatAppModel
+                    {
+                        korisnik_korisnicko_ime = model.korisnik_korisnicko_ime,
+                        korisnik_email = model.korisnik_email,
+                        korisnik_sifra = model.korisnik_sifra,
 
-                };
-                _context.Add(user);
-                await _context.SaveChangesAsync();
 
+                    };
+                    _context.Add(user);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Login", "ChatAppModels");
+
+                }
+                else
+                {
+                    return View("Registration");
+                }
             }
+            
             else
             {
                 return View("Registration");
             }
-            return RedirectToAction("Login", "ChatAppModels");
+            
         }
         // registration Page load
         public IActionResult Registration()
@@ -281,8 +272,6 @@ namespace ChatApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Chat(int id)
         {
-            //posebna metoda za linkovanje poruke s bazom
-            //poziv te metode 
             return View();
         }
 

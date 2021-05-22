@@ -24,7 +24,7 @@ namespace ChatApp.Models
 
         
 
-        public List<MessageModel> MessageModel { get; set; } //or ICollection instead of List??
+        public List<MessageModel> MessageModel { get; set; } 
     }
     
 }

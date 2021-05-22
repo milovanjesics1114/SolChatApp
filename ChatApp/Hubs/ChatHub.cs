@@ -51,14 +51,6 @@ namespace ChatApp.Hubs
             
             
         }
-        //preko user informacija
-       /* public async Task BroadcastToUser(string user, string message, string userWhom)
-    => await Clients.User(userWhom).SendAsync("ReceiveMessage", user, message, userWhom); */
-
-        public string GetUserID()
-        {
-            return Context.UserIdentifier;
-        }
         public string GetConnectionId()
         {
             return Context.ConnectionId;

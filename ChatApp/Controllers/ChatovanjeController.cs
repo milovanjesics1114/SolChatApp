@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Controllers
 { 
-    //dodat ovaj kontroler -> njegov folder za Views
     public class ChatovanjeController : Controller
     {
         private readonly MvcChatContext _context;
