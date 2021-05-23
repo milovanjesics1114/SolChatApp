@@ -8,11 +8,12 @@ namespace ChatApp.Models
 {
     public class LoginModel
     {
-        [Required]
-       
+        [Required(ErrorMessage = "Unesite korisnicko ime")]
         public string korisnik_korisnicko_ime { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Unesite lozinku")]
         public string korisnik_sifra { get; set; }
+
+        public string ErrorMessage { get; set; }
     }
 }

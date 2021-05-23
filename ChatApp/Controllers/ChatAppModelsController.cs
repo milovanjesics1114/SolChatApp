@@ -177,17 +177,17 @@ namespace ChatApp.Controllers
                 
                 if (userdetails == null)
                 {
-                    ModelState.AddModelError("Password", "Invalid login attempt.");
-                    return View("Login");
+                    model_login.ErrorMessage = "Korisnik sa korisnickim imenom: " + model_login.korisnik_korisnicko_ime + " ne postoji ili je uneta pogresna lozinka";
+                    return View(model_login);
                 }
                 HttpContext.Session.SetString("userName", userdetails.korisnik_korisnicko_ime);
-
+                return RedirectToAction("Index");
             }
             else
             {
-                return View("Index");
+                return View();
             }
-            return RedirectToAction("Index");
+            
         }
         //GET: ChatAppModels/Logout
         public IActionResult Logout()
@@ -198,19 +198,18 @@ namespace ChatApp.Controllers
 
         private bool ChatAppModelExistsName(string user_name)
         {
-            Console.WriteLine("Korisnicko ime: " + user_name);
-            Console.WriteLine("DAl ga nasao: " + _context.ChatAppModel.Any(e => e.korisnik_korisnicko_ime == user_name));
+            
             return _context.ChatAppModel.Any(e => e.korisnik_korisnicko_ime == user_name);
         }
 
 
-        //REGISTER 
+        //REGISTRACIJA
         [HttpPost]
         public async Task<ActionResult> Registration(RegistrationModel model)
         {
-            if(ChatAppModelExistsName(model.korisnik_korisnicko_ime) == false)
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                if (ChatAppModelExistsName(model.korisnik_korisnicko_ime) == false)    
                 {
                     ChatAppModel user = new ChatAppModel
                     {
@@ -227,13 +226,14 @@ namespace ChatApp.Controllers
                 }
                 else
                 {
-                    return View("Registration");
+                    model.ErrorMessage = "Korisnicko ime: " + model.korisnik_korisnicko_ime + " je zauzeto"; 
+                    return View(model);
                 }
             }
             
             else
             {
-                return View("Registration");
+                return View();
             }
             
         }

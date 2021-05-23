@@ -1,4 +1,4 @@
-﻿@model ChatApp.Models.ChatAppModel
+﻿@model ChatApp.Models.LoginModel
 
 @{
     ViewData["Title"] = "Login";
@@ -6,7 +6,6 @@
 
 <h1>Login</h1>
 
-<h4>ChatAppModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -23,7 +22,7 @@
                 <input asp-for="korisnik_sifra" type="password" class="form-control" />
                 <span asp-validation-for="korisnik_sifra" class="text-danger"></span>
             </div>
-
+            <p>@Html.DisplayFor(model => model.ErrorMessage)</p>
             <div class="form-group">
                 <input type="submit" value="Login" class="btn btn-primary" />
             </div>
@@ -31,9 +30,7 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

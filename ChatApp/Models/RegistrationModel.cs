@@ -9,21 +9,20 @@ namespace ChatApp.Models
 {
     public class RegistrationModel
     {
-        [Required]
+        [Required(ErrorMessage = "Unesite korisnicko ime")]
         [StringLength(100, MinimumLength = 3)]
         public string korisnik_korisnicko_ime { get; set; }
-        
-        [Required]
-        [EmailAddress]
+
+        [Display(Name="email")]
+        [Required(ErrorMessage = "Email adresa je obavezna")]
+        [EmailAddress(ErrorMessage = "Email adresa nije validna")]
         [StringLength(100)]
         public string korisnik_email { get; set; }
 
-        [Required]
-        [StringLength(30, MinimumLength = 6)]
+        [Required(ErrorMessage = "Unesite lozinku")]
+        [StringLength(30, MinimumLength = 4)]
         public string korisnik_sifra { get; set; }
-        [Required]
-        [NotMapped] // Does not effect with your database
-        [Compare("korisnik_sifra")]
-        public string ConfirmPassword { get; set; }
+
+        public string ErrorMessage { get; set; }
     }
 }
